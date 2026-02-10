@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: debug-helpers
+data:
+  chart-name: {{ include "my-custom-app.name" . }}
+  full-name: {{ include "my-custom-app.fullname" . }}
+  chart-version: {{ include "my-custom-app.chart" . }}
+  release-name: {{ .Release.Name }}
+  release-namespace: {{ .Release.Namespace }}
+  chart-name-raw: {{ .Chart.Name }}
+  chart-version-raw: {{ .Chart.Version }}
+  chart-appversion: {{ .Chart.AppVersion }}

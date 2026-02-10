@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "my-custom-app.fullname" . }}-config
+  labels:
+    {{- include "my-custom-app.labels" . | nindent 4 }}
+data:
+  app-config.json: |
+    {
+      "appName": "{{ include "my-custom-app.fullname" . }}",
+      "environment": "{{ .Values.environment | default "development" }}",
+      "replicaCount": "{{ .Values.replicaCount }}",
+      "version": "{{ .Chart.AppVersion }}",
+      "namespace": "{{ .Release.Namespace }}"
+    }
+  nginx.conf: |
+    server {
+        listen 80;
+        server_name {{ .Values.serverName | default "localhost" }};
+        
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+        
+        location /health {
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+    }

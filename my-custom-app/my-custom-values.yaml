@@ -1,0 +1,33 @@
+replicaCount: 3
+image:
+  repository: nginx
+  tag: "1.26.1"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 80
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+podLabels:
+  environment: production
+  team: devops
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "80"
+  deployment.source: "my-custom-values.yaml"
+  deployment.environment: "production"
+  deployment.date: "2026-02-10"
+
+# Custom configuration values
+environment: production
+serverName: "my-app-production.local"
