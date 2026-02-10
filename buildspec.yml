@@ -1,0 +1,54 @@
+version: 0.2
+
+# Environment variables
+env:
+  variables:
+    # Build configuration
+    BUILD_ENV: production
+    APP_NAME: my-custom-app
+    NODE_VERSION: "18"
+  # parameter-store:
+  #   DATABASE_URL: /myapp/database/url
+  # secrets-manager:
+  #   API_KEY: prod/myapp/secrets:api_key
+
+# Build phases
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - echo "Node version $(node --version)"
+      - echo "NPM version $(npm --version)"
+  
+  pre_build:
+    commands:
+      - echo "Running pre-build checks..."
+      - echo "Build environment is $BUILD_ENV"
+      - echo "Application name is $APP_NAME"
+      - echo "Commit hash is $CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - echo "Branch is $CODEBUILD_WEBHOOK_HEAD_REF"
+  
+  build:
+    commands:
+      - echo "Build started on $(date)"
+      - echo "Building application $APP_NAME..."
+      - echo "Simulating build process..."
+      - sleep 2
+      - echo "Build completed successfully on $(date)"
+  
+  post_build:
+    commands:
+      - echo "Running post-build tasks..."
+      - echo "Build ID is $CODEBUILD_BUILD_ID"
+      - echo "All tasks completed!"
+
+# Artifacts configuration (optional)
+artifacts:
+  files:
+    - '**/*'
+  name: my-app-build-$(date +%Y%m%d-%H%M%S)
+
+# Caching configuration (optional)
+# cache:
+#   paths:
+#     - 'node_modules/**/*'
