@@ -1,0 +1,46 @@
+Step 1: Install CodeDeploy Agent on EC2
+SSH into your EC2 instance and run:
+
+# Update packages
+sudo yum update -y
+
+# Install CodeDeploy agent
+sudo yum install ruby wget -y
+cd /home/ec2-user
+wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto
+
+# Start and verify agent
+sudo service codedeploy-agent start
+sudo service codedeploy-agent status
+Verify it says: The AWS CodeDeploy agent is running
+
+
+--------------
+
+Step 2: Create CodeDeploy Application
+In AWS Console:
+
+Search for "CodeDeploy"
+Click Create application
+Settings:
+Application name: my-first-app
+Compute platform: EC2/On-premises
+Click Create application
+
+--------------
+
+
+Step 3: Create Deployment Group
+Click Create deployment group
+Settings:
+Deployment group name: production
+Service role: Create new role or select existing with CodeDeploy permissions
+Deployment type: In-place
+Environment configuration: Amazon EC2 instances
+Tag key: Name (or whatever tag identifies your EC2)
+Tag value: [your EC2 instance name]
+Deployment settings: CodeDeployDefault.OneAtATime
+Load balancer: Uncheck (skip for now)
+Click Create deployment group
