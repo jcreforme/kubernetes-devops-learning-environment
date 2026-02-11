@@ -38,22 +38,17 @@ phases:
     commands:
       - echo "Build started on $(date)"
       
-      # FAILURE 4: Compilation error (uncomment to trigger)
+      # All failures are commented out - build will succeed
       # - echo "Compiling application..."
       # - javac NonExistentFile.java
       
-      # FAILURE 5: Test failures (ACTIVE - WILL TRIGGER FAILURE)
-      - echo "Running unit tests..."
-      - |
-        echo "Test Suite Results:"
-        echo "  ✗ Test 1: User Authentication - FAILED"
-        echo "  ✗ Test 2: Data Validation - FAILED"
-        echo "Tests: 2 total, 0 passed, 2 failed"
-        exit 1
-      
-      # FAILURE 6: Docker build failure (uncomment to trigger)
-      # - echo "Building Docker image..."
-      # - docker build -t myapp:latest .
+      # - echo "Running unit tests..."
+      # - |
+      #   echo "Test Suite Results:"
+      #   echo "  ✗ Test 1: User Authentication - FAILED"
+      #   echo "  ✗ Test 2: Data Validation - FAILED"
+      #   echo "Tests: 2 total, 0 passed, 2 failed"
+      #   exit 1
       
       - echo "Build completed successfully on $(date)"
   
