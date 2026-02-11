@@ -1,48 +1,87 @@
 version: 0.2
 
-# Environment variables
+# FAILURE SIMULATION MODE
+# Uncomment the desired failure scenario below to trigger it
+
 env:
   variables:
-    # Build configuration
     BUILD_ENV: production
     APP_NAME: my-custom-app
     NODE_VERSION: "18"
-  # parameter-store:
-  #   DATABASE_URL: /myapp/database/url
-  # secrets-manager:
-  #   API_KEY: prod/myapp/secrets:api_key
 
-# Build phases
 phases:
   install:
     commands:
+      - echo "Simulating Failure..."
       - echo "Installing dependencies..."
-      - echo "Node version $(node --version)"
-      - echo "NPM version $(npm --version)"
-  
+      
+      # FAILURE 1: Missing tool/command (uncomment to trigger)
+      # - nonexistent-command --version
+      
   pre_build:
     commands:
       - echo "Running pre-build checks..."
-      - echo "Build environment is $BUILD_ENV"
-      - echo "Application name is $APP_NAME"
-      - echo "Commit hash is $CODEBUILD_RESOLVED_SOURCE_VERSION"
-      - echo "Branch is $CODEBUILD_WEBHOOK_HEAD_REF"
-  
+      
+      # FAILURE 2: Missing environment variable (uncomment to trigger)
+      # - echo "Checking required environment variables..."
+      # - |
+      #   if [ -z "$DATABASE_URL" ]; then
+      #     echo "ERROR: DATABASE_URL environment variable is not set"
+      #     exit 1
+      #   fi
+      
+      # FAILURE 3: Dependency installation failure (uncomment to trigger)
+      # - echo "Installing npm dependencies..."
+      # - npm install non-existent-package-xyz-123
+      
   build:
     commands:
       - echo "Build started on $(date)"
-      - echo "Building application $APP_NAME..."
-      - echo "Simulating build process..."
-      - sleep 2
+      
+      # FAILURE 4: Compilation error (uncomment to trigger)
+      # - echo "Compiling application..."
+      # - javac NonExistentFile.java
+      
+      # FAILURE 5: Test failures (uncomment to trigger)
+      # - echo "Running unit tests..."
+      # - |
+      #   echo "Test Suite Results:"
+      #   echo "  ✗ Test 1: User Authentication - FAILED"
+      #   echo "  ✗ Test 2: Data Validation - FAILED"
+      #   echo "Tests: 2 total, 0 passed, 2 failed"
+      #   exit 1
+      
+      # FAILURE 6: Docker build failure (uncomment to trigger)
+      # - echo "Building Docker image..."
+      # - docker build -t myapp:latest .
+      
       - echo "Build completed successfully on $(date)"
   
   post_build:
     commands:
-      - echo "Running post-build tasks..."
-      - echo "Build ID is $CODEBUILD_BUILD_ID"
-      - echo "All tasks completed!"
+      - echo "Post-build phase started on $(date)"
+      
+      # FAILURE 7: Security scan failure (uncomment to trigger)
+      # - echo "Running security scan..."
+      # - |
+      #   echo "CRITICAL: Security vulnerabilities found!"
+      #   echo "CVE-2024-1234: High severity vulnerability detected"
+      #   echo "CVE-2024-5678: Remote code execution risk"
+      #   exit 1
+      
+      # FAILURE 8: Code quality gate failure (uncomment to trigger)
+      # - echo "Checking code quality..."
+      # - |
+      #   echo "ERROR: Code coverage is below threshold: 45% (minimum: 80%)"
+      #   echo "ERROR: Found 23 critical code smells"
+      #   exit 1
+      
+      # FAILURE 9: Artifact creation failure (uncomment to trigger)
+      # - echo "Creating artifacts..."
+      # - cp /nonexistent/file.txt ./artifacts/
+      
+      - echo "All tasks completed successfully"
 
-# Artifacts configuration (optional)
 artifacts:
   files:
     - '**/*'
